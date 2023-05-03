@@ -7,13 +7,11 @@ public class RotateCamera : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 2.0f;
     [SerializeField]
-    private float rangeY = 70.0f;
+    private float rangeX = 70.0f;
     [SerializeField]
-    private float minX = -40.0f;
-    [SerializeField]
-    private float maxX = 30.0f;
-    private float horizontalRotation = 0;
-    private float verticalRotation = 0;
+    private float rangeY = 30.0f;
+    private float xRotation = 0.0f;
+    private float yRotation = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,12 +27,15 @@ public class RotateCamera : MonoBehaviour
 
     void MouseRotatesCamera()
     {
-        horizontalRotation += Input.GetAxis("Mouse Y") * rotationSpeed;
-        verticalRotation -= Input.GetAxis("Mouse X") * rotationSpeed;
+        xRotation += Input.GetAxis("Mouse X") * rotationSpeed;
+        yRotation -= Input.GetAxis("Mouse Y") * rotationSpeed;
 
-        horizontalRotation = Mathf.Clamp(horizontalRotation, minX, maxX);
-        verticalRotation = Mathf.Clamp(verticalRotation, -rangeY, rangeY);
+        xRotation = Mathf.Clamp(xRotation, -rangeX, rangeX);
+        yRotation = Mathf.Clamp(yRotation, -rangeY, rangeY);
 
-        transform.eulerAngles = new Vector3(horizontalRotation, verticalRotation, 0);
+
+        transform.eulerAngles = new Vector3(yRotation, xRotation, 0);
+        // make parent Player also rotate
+        transform.parent.transform.eulerAngles = new Vector3(0, xRotation, 0);
     }
 }

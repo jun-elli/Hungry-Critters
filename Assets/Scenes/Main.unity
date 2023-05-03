@@ -751,3 +751,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 2
+  rangeX: 70
+  rangeY: 30
