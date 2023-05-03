@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Food
+  - Animal
+  - Environment
+  - Ground
   layers:
   - Default
   - TransparentFX
