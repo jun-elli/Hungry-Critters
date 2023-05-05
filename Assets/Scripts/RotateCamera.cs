@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class RotateCamera : MonoBehaviour
 {
+    public Transform playerBody;
+
     [SerializeField]
-    private float rotationSpeed = 2.0f;
-    [SerializeField]
-    private float rangeX = 70.0f;
+    private float rotationSpeed = 100.0f;
+
     [SerializeField]
     private float rangeY = 30.0f;
     private float xRotation = 0.0f;
-    private float yRotation = 0.0f;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -27,15 +28,15 @@ public class RotateCamera : MonoBehaviour
 
     void MouseRotatesCamera()
     {
-        xRotation += Input.GetAxis("Mouse X") * rotationSpeed;
-        yRotation -= Input.GetAxis("Mouse Y") * rotationSpeed;
+        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
 
-        xRotation = Mathf.Clamp(xRotation, -rangeX, rangeX);
-        yRotation = Mathf.Clamp(yRotation, -rangeY, rangeY);
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -rangeY, rangeY);
 
+        transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        // we rotate all player gameobject
+        playerBody.Rotate(Vector3.up * mouseX);
 
-        transform.eulerAngles = new Vector3(yRotation, xRotation, 0);
-        // make parent Player also rotate
-        transform.parent.transform.eulerAngles = new Vector3(0, xRotation, 0);
     }
 }
