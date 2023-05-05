@@ -18,10 +18,26 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     float jumpHeight = 3f;
 
+    // Grab food
+    public GameObject hands;
+    private SphereCollider handsCollider;
+    private GameObject food;
+    public Transform grabbedFoodPosition;
+    [SerializeField]
+    bool hasFood;
+    [SerializeField]
+    bool isFoodAround;
+
+    private void Start()
+    {
+        handsCollider = hands.GetComponent<SphereCollider>();
+    }
+
     // Update is called once per frame
     void Update()
     {
         Move();
+        GrabFood();
     }
 
     void Move()
@@ -53,4 +69,44 @@ public class PlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
+
+    void GrabFood()
+    {
+        // if we have food, collider should be inactive
+        // if we don't have food collider should be active
+
+        if (!hasFood && isFoodAround && Input.GetKeyDown(KeyCode.F))
+        {
+            // make food part of player
+            food.transform.parent = transform;
+            food.transform.position = grabbedFoodPosition.position;
+            food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            hasFood = true;
+        }
+        else if (hasFood && Input.GetKeyDown(KeyCode.F))
+        {
+            // make food fall away
+            food.transform.parent = null;
+            food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            hasFood = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Food"))
+        {
+            isFoodAround = true;
+            food = other.gameObject;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Food"))
+        {
+            isFoodAround = false;
+            food = null;
+        }
+    }
+
 }
