@@ -5,11 +5,11 @@ using UnityEngine;
 public class Animal : MonoBehaviour
 {
     // detect player
-    public GameObject target;
+    private GameObject target;
     [SerializeField]
     float visionRange = 30.0f;
     [SerializeField]
-    float speed = 10.0f;
+    float speed = 1.0f;
 
     // Food
     [SerializeField]
@@ -18,6 +18,7 @@ public class Animal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -64,7 +65,7 @@ public class Animal : MonoBehaviour
             {
                 // if wrong food, animal gets faster
                 other.gameObject.SetActive(false);
-                speed += 0.5f;
+                speed += 1.0f;
                 Debug.Log("Dont like this food!");
             }
         }

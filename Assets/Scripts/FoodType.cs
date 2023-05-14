@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum TypeOfFood
 {
-    banana, fish, meat
+    banana, cherry, apple
 }
 public class FoodType : MonoBehaviour
 {
