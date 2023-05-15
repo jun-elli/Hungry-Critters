@@ -64,7 +64,6 @@ public class Animal : MonoBehaviour
             else
             {
                 // if wrong food, animal gets faster
-                other.gameObject.SetActive(false);
                 speed += 1.0f;
                 Debug.Log("Dont like this food!");
             }
